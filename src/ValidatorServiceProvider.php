@@ -3,10 +3,10 @@
 namespace ChickenTikkaMasala\LaraValidator;
 
 use App\Validators\ValidatorInterface;
+use ChickenTikkaMasala\LaraValidator\Validators\AbstractValidator;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
-use Validator;
-use File;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ValidatorServiceProvider
@@ -19,7 +19,10 @@ class ValidatorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        foreach(File::allFiles('app/Validators') as $validator) {
+        /**
+         * Loop over all classes in app/Validators and check that class extends AbstractValidator 
+         */
+        foreach(\File::allFiles('app/Validators') as $validator) {
 
             /** @var SplFileInfo $validator */
             $class = 'App\Validators\\'.str_replace('.php', '', $validator->getFilename());
@@ -31,13 +34,12 @@ class ValidatorServiceProvider extends ServiceProvider
 
             if (!$parentClass) continue;
 
-            if ($parentClass->getName() !== 'App\Validators\AbstractValidator') continue;
-
+            if ($parentClass->getName() !== AbstractValidator::class) continue;
 
             /** @var ValidatorInterface $validatorClass */
             $validatorClass = app($class);
 
-            Validator::extends($validatorClass->getName(), function($attribute, $value, $parameters, $validator) use ($validatorClass) {
+            Validator::extend($validatorClass->getName(), function($attribute, $value, $parameters, $validator) use ($validatorClass) {
                 $validatorClass->execute($attribute, $value, $parameters, $validator);
             });
 
@@ -46,6 +48,8 @@ class ValidatorServiceProvider extends ServiceProvider
             });
 
         }
+
+        exit;
 
     }
 }

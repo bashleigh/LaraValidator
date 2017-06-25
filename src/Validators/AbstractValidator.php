@@ -1,12 +1,12 @@
 <?php
 
-namespace ChickenTikkaMasala\LaraValidator\Validator;
+namespace ChickenTikkaMasala\LaraValidator\Validators;
 
 use ChickenTikkaMasala\LaraValidator\Exceptions\InvalidValidatorName;
 
 /**
  * Class AbstractValidator
- * @package ChickenTikkaMasala\LaraValidator\Validator
+ * @package ChickenTikkaMasala\LaraValidator\Validators
  */
 abstract class AbstractValidator implements ValidatorInterface
 {

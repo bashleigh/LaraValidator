@@ -5,19 +5,19 @@ namespace ChickenTikkaMasala\LaraValidator\Exceptions;
 use Throwable;
 
 /**
- * Class InvalidValidatorName
+ * Class InvalidParameterException
  * @package ChickenTikkaMasala\LaraValidator\Exceptions
  */
-class InvalidValidatorName extends \Exception
+class RequiredParameterException extends \Exception
 {
     /**
-     * InvalidValidatorName constructor.
+     * RequiredParameterException constructor.
      * @param string $message
      * @param int $code
      * @param Throwable|null $previous
      */
     public function __construct($message, $code = 0, Throwable $previous = null)
     {
-        parent::__construct('The validator "'.$message.'" requires the name parameter not to be null', $code, $previous);
+        parent::__construct('The parameter "'.$message.'" is required.', $code, $previous);
     }
 }

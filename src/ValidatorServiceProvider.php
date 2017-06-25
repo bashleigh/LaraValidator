@@ -19,37 +19,39 @@ class ValidatorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
-         * Loop over all classes in app/Validators and check that class extends AbstractValidator 
-         */
-        foreach(\File::allFiles('app/Validators') as $validator) {
 
-            /** @var SplFileInfo $validator */
-            $class = 'App\Validators\\'.str_replace('.php', '', $validator->getFilename());
+        if (\File::exists(app_path('Validators'))) {
 
-            /** @var \ReflectionClass $classInfo */
-            $classInfo = new \ReflectionClass($class);
+            /**
+             * Loop over all classes in app/Validators and check that class extends AbstractValidator
+             */
+            foreach(\File::allFiles(app_path('Validators')) as $validator) {
 
-            $parentClass = $classInfo->getParentClass();
+                /** @var SplFileInfo $validator */
+                $class = 'App\Validators\\'.str_replace('.php', '', $validator->getFilename());
 
-            if (!$parentClass) continue;
+                /** @var \ReflectionClass $classInfo */
+                $classInfo = new \ReflectionClass($class);
 
-            if ($parentClass->getName() !== AbstractValidator::class) continue;
+                $parentClass = $classInfo->getParentClass();
 
-            /** @var ValidatorInterface $validatorClass */
-            $validatorClass = app($class);
+                if (!$parentClass) continue;
 
-            Validator::extend($validatorClass->getName(), function($attribute, $value, $parameters, $validator) use ($validatorClass) {
-                $validatorClass->execute($attribute, $value, $parameters, $validator);
-            });
+                if ($parentClass->getName() !== AbstractValidator::class) continue;
 
-            Validator::replacer($validatorClass->getName(), function($message, $attribute, $rule, $parameters) use ($validatorClass) {
-                $validatorClass->message($message, $attribute, $rule, $parameters);
-            });
+                /** @var ValidatorInterface $validatorClass */
+                $validatorClass = app($class);
 
+                Validator::extend($validatorClass->getName(), function($attribute, $value, $parameters, $validator) use ($validatorClass) {
+                    return $validatorClass->execute($attribute, $value, $parameters, $validator);
+                });
+
+                Validator::replacer($validatorClass->getName(), function($message, $attribute, $rule, $parameters) use ($validatorClass) {
+                    return $validatorClass->message($message, $attribute, $rule, $parameters);
+                });
+
+            }
         }
-
-        exit;
 
     }
 }

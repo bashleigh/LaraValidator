@@ -1,0 +1,21 @@
+{
+  "name": "chickentikkamasala/laravalidator",
+  "description": "Validation service provider.",
+  "keywords": ["validator", "laravel"],
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "ChickenTikkaMasala\\LaraValidator\\": "src/"
+    }
+  },
+  "type": "project",
+  "authors": [
+    {
+      "name": "ashleigh simonelli",
+      "email": "ashleighsimonelli@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable"
+}

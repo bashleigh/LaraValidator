@@ -3,6 +3,7 @@
 namespace ChickenTikkaMasala\LaraValidator;
 
 use App\Validators\ValidatorInterface;
+use ChickenTikkaMasala\LaraValidator\Commands\ValidatorMakeCommand;
 use ChickenTikkaMasala\LaraValidator\Validators\AbstractValidator;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
@@ -20,11 +21,21 @@ class ValidatorServiceProvider extends ServiceProvider
     public function boot()
     {
 
+       $this->addValidators();
+
+       $this->commands([
+           ValidatorMakeCommand::class,
+       ]);
+
+    }
+
+    /**
+     * Loop over all classes in app/Validators and check that class extends AbstractValidator
+     */
+    protected function addValidators()
+    {
         if (\File::exists(app_path('Validators'))) {
 
-            /**
-             * Loop over all classes in app/Validators and check that class extends AbstractValidator
-             */
             foreach(\File::allFiles(app_path('Validators')) as $validator) {
 
                 /** @var SplFileInfo $validator */
@@ -52,6 +63,5 @@ class ValidatorServiceProvider extends ServiceProvider
 
             }
         }
-
     }
 }

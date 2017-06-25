@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Validators;
+
+use ChickenTikkaMasala\LaraValidator\Validators\AbstractValidator;
+
+/**
+ * Class DummyClass
+ * @package App\Validators
+ */
+class DummyClass extends AbstractValidator
+{
+    public $name = '';
+
+    /**
+     * @param $attribute
+     * @param $value
+     * @param array $parameters
+     * @param $validator
+     * @return bool
+     */
+    public function execute($attribute, $value, array $parameters, $validator): bool
+    {
+        return true;
+    }
+
+    /**
+     * @param $message
+     * @param $attribute
+     * @param $rule
+     * @param array $parameters
+     * @return string
+     */
+    public function message($message, $attribute, $rule, array $parameters): string
+    {
+        return "Message";
+    }
+}

@@ -70,5 +70,13 @@ RequiredParameterException in AbstractValidator.php line 40:
 The parameter "table name" is required.
 ```
 
+### Make function 
+
+You can use the `make:validator` command to create a new validator class
+
+```bash
+php artisan make:validator CustomValidator
+```
+
 And that's pretty much it! It's the simple things ;)
 
